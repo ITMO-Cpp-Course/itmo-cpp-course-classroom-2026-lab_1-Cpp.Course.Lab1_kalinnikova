@@ -1,22 +1,22 @@
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include <sstream>   // Подключаем библиотеку для работы с текстовыми потоками
 #include "lab1/date.hpp"
+#include <iomanip>
+#include <iostream>
+#include <sstream> // библиотека для работы с текстовыми потоками
+#include <string>
 
 using namespace lab1::date;
 
-// Функция для превращения текста "2024-01-01" в структуру Date
+// функция для превращения текста "2024-01-01" в структуру Date
 Date parse_date(const std::string& str)
 {
     Date d;
     char dash1, dash2;         // создали переменные для дефисов (символов между числами в дате)
     std::stringstream ss(str); // кладем нашу строку в поток
 
-    // Читаем: число, символ, число, символ, число
+    // читаем: число, символ, число, символ, число
     ss >> d.year >> dash1 >> d.month >> dash2 >> d.day;
 
-    // Если поток не смог прочитать данные или дефисы оказались не дефисами
+    // усли поток не смог прочитать данные или дефисы оказались не дефисами
     if (ss.fail() || dash1 != '-' || dash2 != '-')
     {
         d.year = -1; // специально портим год, чтобы вывести ошибку ввода даты
@@ -31,17 +31,17 @@ int main(int argc, char** argv)
     if (argc < 2)
     {
         std::cout << "Usage: date_cli <command> [args]\n"; // вывели, что не так
-        return 1; //завершили программу с ошибкой (ненулевым выходным кодом)
+        return 1;                                          // завершили программу с ошибкой (ненулевым выходным кодом)
     }
 
     std::string command = argv[1];
 
     if (command == "validate")
     {
-        if (argc < 3) //не ввели дату
+        if (argc < 3) // не ввели дату
         {
             std::cout << "Error: missing date argument\n";
-            return 1; 
+            return 1;
         }
 
         Date d = parse_date(argv[2]); // преобразовали переданную дату в наш формат
@@ -72,7 +72,7 @@ int main(int argc, char** argv)
 
         int w = day_of_week(d);
 
-        //индекс 0 пустой, чтобы воспользоваться тем, что в функции мы обозначили дни недели цифрами от 1 до 7
+        // индекс 0 пустой, чтобы воспользоваться тем, что в функции мы обозначили дни недели цифрами от 1 до 7
         const char* names[] = {"", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
         std::cout << names[w] << "\n";
     }
